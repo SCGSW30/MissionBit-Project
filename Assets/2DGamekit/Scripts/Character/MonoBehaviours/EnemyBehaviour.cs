@@ -96,6 +96,9 @@ namespace Gamekit2D
         protected readonly int m_HashDeathPara = Animator.StringToHash("Death");
         protected readonly int m_HashGroundedPara = Animator.StringToHash("Grounded");
 
+        //added By Calvin
+        protected bool isFrozen = false;
+
         private void Awake()
         {
             m_CharacterController2D = GetComponent<CharacterController2D>();
@@ -151,13 +154,23 @@ namespace Gamekit2D
 
             m_MoveVector.y = Mathf.Max(m_MoveVector.y - gravity * Time.deltaTime, - gravity);
 
-            m_CharacterController2D.Move(m_MoveVector * Time.deltaTime);
+            //added by Calvin
+            if (isFrozen != true){
+                m_CharacterController2D.Move(m_MoveVector * Time.deltaTime);
+            }
 
             m_CharacterController2D.CheckCapsuleEndCollisions();
 
             UpdateTimers();
 
-            m_Animator.SetBool(m_HashGroundedPara, m_CharacterController2D.IsGrounded);
+            //added by Calvin
+            if (isFrozen == false) {
+                m_Animator.SetBool(m_HashGroundedPara, m_CharacterController2D.IsGrounded);
+            }
+
+            if (isFrozen == true) {
+                ForgetTarget();
+            }
         }
 
         void UpdateTimers()
@@ -252,7 +265,10 @@ namespace Gamekit2D
             m_Target = PlayerCharacter.PlayerInstance.transform;
             m_TimeSinceLastTargetView = timeBeforeTargetLost;
 
-            m_Animator.SetTrigger(m_HashSpottedPara);
+            //added by Calvin
+            if (isFrozen == false) { 
+                m_Animator.SetTrigger(m_HashSpottedPara);
+            }
         }
 
         public void OrientToTarget()
@@ -467,6 +483,16 @@ namespace Gamekit2D
         {
             if (damageable.CurrentHealth <= 0)
                 return;
+            //added this Calvin
+            if (damageable.CurrentHealth <= 1){
+                gameObject.layer = 31;
+                DisableDamage();
+                damageable.GainHealth(1);
+                isFrozen = true;
+                m_SpriteRenderer.color = Color.blue;
+                ForgetTarget();
+                return;
+            }
 
             m_Animator.SetTrigger(m_HashHitPara);
 

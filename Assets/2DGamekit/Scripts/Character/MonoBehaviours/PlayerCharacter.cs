@@ -114,6 +114,9 @@ namespace Gamekit2D
         //used in non alloc version of physic function
         protected ContactPoint2D[] m_ContactsBuffer = new ContactPoint2D[16];
 
+        //added by Calvin
+        protected bool canShoot;
+
         // MonoBehaviour Messages - called by Unity internally.
         void Awake()
         {
@@ -156,6 +159,10 @@ namespace Gamekit2D
 
             m_StartingPosition = transform.position;
             m_StartingFacingLeft = GetFacing() < 0.0f;
+
+            //added by Calvin
+            PlayerInput.Instance.DisableRangedAttacking();
+            PlayerInput.Instance.DisableMeleeAttacking();
         }
 
         void OnTriggerEnter2D(Collider2D other)
