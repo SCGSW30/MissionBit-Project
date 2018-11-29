@@ -21,7 +21,15 @@ namespace Gamekit2D
 
         [Header("Movement")]
         public float speed;
-        public float gravity = 10.0f;
+        public float gravity = 10f;
+
+        [Header("Flying Settings")]
+        //added by Calvin
+        public bool flight;
+        public float horizontalFlight;
+        public float verticleFight;
+        public int flightTimer;
+
 
         [Header("References")]
         [Tooltip("If the enemy will be using ranged attack, set a prefab of the projectile it should use")]
@@ -98,6 +106,7 @@ namespace Gamekit2D
 
         //added By Calvin
         protected bool isFrozen = false;
+        protected int timer = 0;
 
         private void Awake()
         {
@@ -171,6 +180,11 @@ namespace Gamekit2D
             if (isFrozen == true) {
                 ForgetTarget();
             }
+
+            if(flight){
+                fly();
+            }
+
         }
 
         void UpdateTimers()
@@ -552,6 +566,18 @@ namespace Gamekit2D
         public void PlayFootStep()
         {
             footStepAudio.PlayRandomSound();
+        }
+
+        //added by Calvin
+        public void fly() {
+            SetMoveVector(new Vector2(horizontalFlight, verticleFight));
+            timer++;
+
+            if(timer == flightTimer){
+                horizontalFlight = -horizontalFlight;
+                verticleFight = -verticleFight;
+                timer = 0;
+            }
         }
 
 #if UNITY_EDITOR

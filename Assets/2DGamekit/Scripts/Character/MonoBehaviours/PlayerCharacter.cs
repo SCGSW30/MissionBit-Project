@@ -137,6 +137,7 @@ namespace Gamekit2D
             m_TanHurtJumpAngle = Mathf.Tan(Mathf.Deg2Rad * hurtJumpAngle);
             m_FlickeringWait = new WaitForSeconds(flickeringDuration);
 
+            //added code
             meleeDamager.DisableDamage();
 
             m_ShotSpawnGap = 1f / shotsPerSecond;
@@ -388,7 +389,7 @@ namespace Gamekit2D
 
         public bool IsFalling()
         {
-            return m_MoveVector.y < 0f && !m_Animator.GetBool(m_HashGroundedPara);
+            return m_MoveVector.y < 0f; //&& !m_Animator.GetBool(m_HashGroundedPara);
         }
 
         public void UpdateFacing()
@@ -755,7 +756,7 @@ namespace Gamekit2D
 
         public void EnableMeleeAttack()
         {
-            meleeDamager.EnableDamage();
+           //meleeDamager.EnableDamage(); added by Calvin lolol
             meleeDamager.disableDamageAfterHit = true;
             meleeAttackAudioPlayer.PlayRandomSound();
         }
@@ -814,6 +815,10 @@ namespace Gamekit2D
         public void KeyInventoryEvent()
         {
             if (KeyUI.Instance != null) KeyUI.Instance.ChangeKeyUI(m_InventoryController);
+        }
+
+        public bool INeedSomethingForThisToWork(){
+            return m_MoveVector.y <= 0;
         }
     }
 }

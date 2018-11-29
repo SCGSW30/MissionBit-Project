@@ -4,12 +4,16 @@ namespace Gamekit2D
 {
     public class LocomotionSMB : SceneLinkedSMB<PlayerCharacter>
     {
+        ///added by Calvin
+        private int jumpCounter = 0;
+        private int maxNumJumps = 2;
+
         public override void OnSLStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             m_MonoBehaviour.TeleportToColliderBottom();
         }
 
-        public override void OnSLStateNoTransitionUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             m_MonoBehaviour.UpdateFacing();
             m_MonoBehaviour.GroundedHorizontalMovement(true);
@@ -18,10 +22,10 @@ namespace Gamekit2D
             m_MonoBehaviour.CheckForGrounded();
             m_MonoBehaviour.CheckForPushing();
             m_MonoBehaviour.CheckForHoldingGun();
-            m_MonoBehaviour.CheckAndFireGun ();
-            if (m_MonoBehaviour.CheckForJumpInput ())
+            m_MonoBehaviour.CheckAndFireGun();
+            if (m_MonoBehaviour.CheckForJumpInput())
                 m_MonoBehaviour.SetVerticalMovement(m_MonoBehaviour.jumpSpeed);
-            else if(m_MonoBehaviour.CheckForMeleeAttackInput ())
+            else if (m_MonoBehaviour.CheckForMeleeAttackInput())
                 m_MonoBehaviour.MeleeAttack();
         }
     }
