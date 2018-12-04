@@ -42,6 +42,10 @@ namespace Gamekit2D
             get { return m_CurrentHealth; }
         }
 
+        public void setInvincibilityTimer(float n){
+            m_InulnerabilityTimer = n;
+        }
+
         void OnEnable()
         {
             PersistentDataManager.RegisterPersister(this);
@@ -74,7 +78,7 @@ namespace Gamekit2D
         {
             m_Invulnerable = true;
             //technically don't ignore timer, just set it to an insanly big number. Allow to avoid to add more test & special case.
-            m_InulnerabilityTimer = ignoreTimer ? float.MaxValue : invulnerabilityDuration;
+            m_InulnerabilityTimer = ignoreTimer ? float.MaxValue : 1000000000000000000;
         }
 
         public void DisableInvulnerability()

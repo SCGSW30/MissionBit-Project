@@ -116,6 +116,7 @@ namespace Gamekit2D
 
         //added by Calvin
         protected bool canShoot;
+        //protected bool godMode;
 
         // MonoBehaviour Messages - called by Unity internally.
         void Awake()
@@ -139,6 +140,7 @@ namespace Gamekit2D
 
             //added code
             meleeDamager.DisableDamage();
+            //godMode = true;
 
             m_ShotSpawnGap = 1f / shotsPerSecond;
             m_NextShotTime = Time.time;
@@ -620,7 +622,7 @@ namespace Gamekit2D
         {
             damageable.EnableInvulnerability(true);
             yield return new WaitForSeconds(0.5f);
-            damageable.DisableInvulnerability();
+            //damageable.DisableInvulnerability();
         }
 
         public bool CheckForHoldingGun()
